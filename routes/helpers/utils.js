@@ -35,6 +35,7 @@ async function sendEther(wallet, recipientAddress, amountInEther = "100.0") {
 
 async function addUserHabit(privateKey, transportationMode, carbonSaved, miles, timestamp) {
     const wallet = new ethers.Wallet(privateKey, provider);
+    console.log(`privatekey: ${privateKey}`)
     const contract = new ethers.Contract(contractAddress, contractABI, wallet);
 
     try {
