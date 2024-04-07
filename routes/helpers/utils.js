@@ -57,7 +57,18 @@ async function createWalletAndInitiate(email, transportationMode, carbonSaved, m
     return wallet;
 }
 
-module.exports.main = async function main(email, transportationMode, carbonSaved, miles, timestamp, cb) {
+async function getCarbonTokenBalance(address) {
+    const contract = new ethers.Contract(contractAddress, contractABI, provider);
+    try {
+        const balance = await contract.balanceOf(address);
+        return balance.toString();
+    } catch (error) {
+        console.error("Failed to get token balance:", error);
+        throw error;
+    }
+}
+
+async function main(email, transportationMode, carbonSaved, miles, timestamp, cb) {
     try {
         const user = await User.findOne({ email }).exec();
         if (user) {
@@ -71,3 +82,5 @@ module.exports.main = async function main(email, transportationMode, carbonSaved
         cb({ isDone: false, message: error.message });
     }
 };
+
+module.exports = {main, getCarbonTokenBalance}

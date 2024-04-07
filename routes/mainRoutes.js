@@ -1,5 +1,5 @@
 const express = require("express");
-const { main } = require("./helpers/utils");
+const { main, getCarbonTokenBalance } = require("./helpers/utils");
 const router = express.Router();
 
 router.post("/upload", async (req, res) => {
@@ -35,6 +35,33 @@ router.post("/upload", async (req, res) => {
             status: "Error",
             error: true,
             message: error.message || "An error occurred during the operation."
+        });
+    }
+});
+
+router.get("/checkBalance", async (req, res) => {
+    const { address } = req.query;
+
+    if (!address) {
+        return res.status(400).json({
+            status: "Error",
+            error: true,
+            message: "Address query parameter is missing."
+        });
+    }
+
+    try {
+        const balance = await getCarbonTokenBalance(address);
+        return res.status(200).json({
+            status: "ok",
+            error: false,
+            balance: balance
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: "Error",
+            error: true,
+            message: error.message || "An error occurred while fetching the token balance."
         });
     }
 });
