@@ -17,7 +17,7 @@ router.post("/upload", async (req, res) => {
                 const miles = distance; // Assuming your contract expects miles directly
                 const carbonSaved = emissions; // Assuming your contract expects carbon saved directly
                             const confirm = await new Promise((resolve, reject) => {
-                                main (email, transportationMode, carbonSaved, miles, timestamp,  (result) => {
+                                main (email, transportationMode, Math.floor(carbonSaved), Math.floor(miles), timestamp,  (result) => {
                                     if (result.isDone) {
                                         resolve(result);
                                     } else {

@@ -6,7 +6,7 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3099;
 
 app.use('/api/v1/smartcontract', require('./routes/mainRoutes'));
 app.listen(PORT, () => {
