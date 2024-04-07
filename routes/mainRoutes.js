@@ -10,14 +10,18 @@ router.post("/upload", async (req, res) => {
         for (const email in dataJson) {
             const userDates = dataJson[email];
             for (const date in userDates) {
-                const { type, distance, emissions } = userDates[date];
+                const { type, distance, emission } = userDates[date];
                 console.log(type)
                 const timestamp = date
                 const transportationMode = type;
                 const miles = distance; // Assuming your contract expects miles directly
-                const carbonSaved = emissions; // Assuming your contract expects carbon saved directly
+                const carbonSaved = emission; // Assuming your contract expects carbon saved directly
                             const confirm = await new Promise((resolve, reject) => {
-                                main (email, transportationMode, Math.floor(carbonSaved), Math.floor(miles), timestamp,  (result) => {
+                                let carbonSavedintegerString = carbonSaved.toString().replace(".", "");
+                                let carbonSavedInt = parseInt(carbonSavedintegerString);
+                                let milesString = miles.toString().replace(".", "");
+                                let milesInt = parseInt(milesString);
+                                main (email, transportationMode, carbonSavedInt, milesInt, timestamp,  (result) => {
                                     if (result.isDone) {
                                         resolve(result);
                                     } else {
